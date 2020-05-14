@@ -143,13 +143,14 @@ class DevoeQuakeLocatorTests: XCTestCase {
         }
     }
     
+    
     func printFeature( _ feature: Feature ) {
         print( "\nID: \(feature.id ?? "?" )" )
         
         if let properties = feature.properties {
             print( "Magnitude: \(properties.mag ?? 0)" )
             print( "Where: \(properties.place ?? "?" )" )
-            print( "Time: \(properties.time ?? Date() )" )
+            print( "Time: \(properties.time?.toHHMM() ?? "" )" )
             print( "\(properties.alert ?? "" )" )
         }
     }

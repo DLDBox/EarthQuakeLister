@@ -94,7 +94,7 @@ extension QuakeDataSource {
         
         quakeCell.title.text = properties?.place
         quakeCell.magnitude.text = "\(properties?.mag ?? 0.0)"
-        quakeCell.time.text = properties?.time?.toHHMM() //TODO: convert Date to a string
+        quakeCell.time.text = properties?.time?.toHHMM()
         
         return quakeCell
     }
