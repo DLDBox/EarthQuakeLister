@@ -26,7 +26,7 @@
 		5D67270A246CA63E008DDD70 /* QuakeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D672709246CA63E008DDD70 /* QuakeDetailViewController.swift */; };
 		5D67270F246CED47008DDD70 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D67270E246CED47008DDD70 /* WebKit.framework */; };
 		5D672711246D112D008DDD70 /* NetMinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D672710246D112D008DDD70 /* NetMinder.swift */; };
-		5D672713246D2479008DDD70 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D672712246D2479008DDD70 /* DateExtension.swift */; };
+		5D672713246D2479008DDD70 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D672712246D2479008DDD70 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +72,7 @@
 		5D672709246CA63E008DDD70 /* QuakeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuakeDetailViewController.swift; sourceTree = "<group>"; };
 		5D67270E246CED47008DDD70 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5D672710246D112D008DDD70 /* NetMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetMinder.swift; sourceTree = "<group>"; };
-		5D672712246D2479008DDD70 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		5D672712246D2479008DDD70 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,7 +190,7 @@
 				5D6726E92469BE70008DDD70 /* Errors.swift */,
 				5D6726F8246A23A4008DDD70 /* Closures.swift */,
 				5D672710246D112D008DDD70 /* NetMinder.swift */,
-				5D672712246D2479008DDD70 /* DateExtension.swift */,
+				5D672712246D2479008DDD70 /* Extensions.swift */,
 			);
 			path = Utilies;
 			sourceTree = "<group>";
@@ -345,7 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D3B934E2468AFC60090C52F /* ViewController.swift in Sources */,
-				5D672713246D2479008DDD70 /* DateExtension.swift in Sources */,
+				5D672713246D2479008DDD70 /* Extensions.swift in Sources */,
 				5D6726FD246BE6D6008DDD70 /* QuakeDataSource.swift in Sources */,
 				5D672711246D112D008DDD70 /* NetMinder.swift in Sources */,
 				5D3B934A2468AFC60090C52F /* AppDelegate.swift in Sources */,
@@ -537,7 +537,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danadevoe.DevoeQuakeLocator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danadevoe.TestCode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -555,7 +555,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danadevoe.DevoeQuakeLocator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danadevoe.TestCode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

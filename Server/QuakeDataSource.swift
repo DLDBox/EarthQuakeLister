@@ -15,7 +15,6 @@ class QuakeDataSource: NSObject, UITableViewDataSource {
     //
     //MARK: - private section
     //
-    private let netMonitor: NWPathMonitor
     private var features: FeatureCollection?
     
     //
@@ -23,55 +22,28 @@ class QuakeDataSource: NSObject, UITableViewDataSource {
     //
     static let shared = QuakeDataSource()
     
-    var isInternetAccessible: Bool
-    
     override init() {
         
-        self.netMonitor = NWPathMonitor() // TODO: create separate class for this object
-        self.isInternetAccessible = false
         self.features = nil
     
         super.init()
-        self.setupCallBack()
     }
     
-    func loadQuakeData( startTime: String, endTime: String, magnitude: Int?, completion: @escaping ClosureWithBool ) { //TODO: perhaps add a failure closure
+    func loadQuakeData( startTime: String, endTime: String, magnitude: Int?, completion: @escaping ClosureWithBool ) { 
         self.features = nil
         
-        if self.isInternetAccessible {
+        NetMinder.shared.accessible { yes in
             
-            QuakeServer.featuresFor(startTime: startTime, endTime: endTime, magnitude: magnitude, completion: { recvFeatures in
-                self.features = recvFeatures
-                completion(true)
-            }, failure: { error in
-                completion(false)
-            })
-            
-        } else { // since there was no connection lets retry
-            //completion(false)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                self.loadQuakeData(startTime: startTime, endTime: endTime, magnitude: magnitude, completion: completion )
-            })
-        }
-    }
-    
-    //
-    //MARK: - helper section
-    //
-    func setupCallBack() {
-        self.netMonitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                self.isInternetAccessible = true
-            } else {
-                self.isInternetAccessible = false
+            if yes {
+                QuakeServer.featuresFor(startTime: startTime, endTime: endTime, magnitude: magnitude, completion: { recvFeatures in
+                    self.features = recvFeatures
+                    completion(true)
+                }, failure: { error in
+                    completion(false)
+                })
             }
         }
-        
-        let queue = DispatchQueue.global(qos: .background)
-        self.netMonitor.start(queue: queue)
     }
-    
 }
 
 //

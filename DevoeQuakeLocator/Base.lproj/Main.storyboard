@@ -55,6 +55,10 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" id="Qia-0Z-5Xm">
+                                <rect key="frame" x="0.0" y="311" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -69,6 +73,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="activity" destination="Qia-0Z-5Xm" id="fED-kt-627"/>
                         <outlet property="quakeList" destination="tUD-du-8Ds" id="02G-Sb-tek"/>
                         <segue destination="DiZ-AZ-mx1" kind="show" identifier="QuakeDetailSegue" id="JS8-xb-1UW"/>
                     </connections>

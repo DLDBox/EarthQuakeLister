@@ -9,17 +9,12 @@
 import Foundation
 import UIKit
 
-class QuakeCell: UITableViewCell {
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var magnitude: UILabel!
-    @IBOutlet weak var time: UILabel!
-    
-}
 
 /* Lists the Quake information in a tablevie and allow the user to selection a quake to get additional
  information */
 class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     
+    @IBOutlet weak var activity: UIActivityIndicatorView!
     //
     //MARK: - IBOutlet section
     //
@@ -46,8 +41,10 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         
         //Load the quake data with no magnitude data
+        self.activity.startAnimating()
         self.quakeDataSource.loadQuakeData(startTime: self.startTime, endTime: self.endTime, magnitude: nil, completion: { success in
             DispatchQueue.main.async {
+                self.activity.stopAnimating()
                 self.quakeList.reloadData()
             }
         })
@@ -58,10 +55,15 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     //
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let url = self.quakeDataSource.featureURLAt(indexPath) {
-            self.performSegue( withIdentifier: "QuakeDetailSegue", sender: url )
-        } else {
-            print( "no url provided" )
+        
+        NetMinder.shared.accessible { yes in
+            DispatchQueue.main.async {
+                if let url = self.quakeDataSource.featureURLAt(indexPath) {
+                    self.performSegue( withIdentifier: "QuakeDetailSegue", sender: url )
+                } else {
+                    print( "no url provided" )
+                }
+            }
         }
     }
     

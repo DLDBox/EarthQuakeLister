@@ -50,6 +50,9 @@ class NetMinder {
     //
     private func setupCallBack() {
         self.netMonitor.pathUpdateHandler = { path in
+            
+            print( "path = \(path)" )
+            
             if path.status == .satisfied {
                 self.isInternetAccessible = true
                 
@@ -61,11 +64,15 @@ class NetMinder {
             } else {
                 self.isInternetAccessible = false
                 
-                DispatchQueue.main.async {
-                    self.alert = UIAlertController( title:"Network Access Error", message: "Please connect to the internet", preferredStyle: .alert )
-                    self.alert?.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                    
-                    self.alert?.show()
+                if self.alert == nil {
+                    DispatchQueue.main.async {
+                        self.alert = UIAlertController( title:"Network Access Error", message: "Please connect to the internet", preferredStyle: .alert )
+                        self.alert?.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { action in
+                            self.alert = nil
+                        }))
+                        
+                        self.alert?.show()
+                    }
                 }
             }
         }
@@ -76,28 +83,3 @@ class NetMinder {
     
 }
 
-extension UIAlertController {
-
-    func show() {
-        present(animated: true, completion: nil)
-    }
-
-    func present(animated: Bool, completion: (() -> Void)?) {
-        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
-            presentFromController(controller: rootVC, animated: animated, completion: completion)
-        }
-    }
-
-    private func presentFromController(controller: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        if let navVC = controller as? UINavigationController,
-            let visibleVC = navVC.visibleViewController {
-            presentFromController(controller: visibleVC, animated: animated, completion: completion)
-        } else
-            if let tabVC = controller as? UITabBarController,
-                let selectedVC = tabVC.selectedViewController {
-                presentFromController(controller: selectedVC, animated: animated, completion: completion)
-            } else {
-                controller.present(self, animated: animated, completion: completion);
-        }
-    }
-}
