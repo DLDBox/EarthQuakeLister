@@ -9,6 +9,8 @@
 import Foundation
 import WebKit
 
+/* Use to display the detail earth quake data
+ */
 class QuakeDetailViewController: DevoeViewController {
     
     //
@@ -37,6 +39,7 @@ class QuakeDetailViewController: DevoeViewController {
         
     }
     
+    // Setup the URL before the window instantiates
     func loadWeb( _ url: String ) {
         self.detailURL = URL( string: url )
     }
