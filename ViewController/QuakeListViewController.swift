@@ -14,10 +14,10 @@ import UIKit
  information */
 class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     
-    @IBOutlet weak var activity: UIActivityIndicatorView!
     //
     //MARK: - IBOutlet section
     //
+    @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var quakeList: UITableView!
     
     //
@@ -36,15 +36,16 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     override func viewDidLoad() {
         quakeList.dataSource = self.quakeDataSource
         quakeList.delegate = self
+        self.activity.startAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         //Load the quake data with no magnitude data
-        self.activity.startAnimating()
         self.quakeDataSource.loadQuakeData(startTime: self.startTime, endTime: self.endTime, magnitude: nil, completion: { success in
             DispatchQueue.main.async {
                 self.activity.stopAnimating()
+                self.activity.isHidden = true
                 self.quakeList.reloadData()
             }
         })

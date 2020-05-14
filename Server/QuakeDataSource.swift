@@ -16,6 +16,7 @@ class QuakeDataSource: NSObject, UITableViewDataSource {
     //MARK: - private section
     //
     private var features: FeatureCollection?
+    private let queue = OperationQueue()
     
     //
     //MARK: - public section
@@ -35,12 +36,14 @@ class QuakeDataSource: NSObject, UITableViewDataSource {
         NetMinder.shared.accessible { yes in
             
             if yes {
-                QuakeServer.featuresFor(startTime: startTime, endTime: endTime, magnitude: magnitude, completion: { recvFeatures in
-                    self.features = recvFeatures
-                    completion(true)
-                }, failure: { error in
-                    completion(false)
-                })
+                self.queue.addOperation {
+                    QuakeServer.featuresFor(startTime: startTime, endTime: endTime, magnitude: magnitude, completion: { recvFeatures in
+                        self.features = recvFeatures
+                        completion(true)
+                    }, failure: { error in
+                        completion(false)
+                    })
+                }
             }
         }
     }
