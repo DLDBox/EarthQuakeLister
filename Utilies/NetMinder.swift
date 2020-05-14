@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import Network
 
 /* Manages the connection status and provides a mechanism to
@@ -18,72 +19,29 @@ class NetMinder {
     //MARK: - Private section
     //
     private let netMonitor: NWPathMonitor
+    private var connectClosure: ClosureWithBool?
     private var isInternetAccessible: Bool
-    private var minders: [(ClosureWithAny?,ClosureWithAny?)]
-    
+    private var alert: UIAlertController?
+
     //
     //MARK: - Public section
     //
     static let shared = NetMinder()
     
+
     init() {
         self.netMonitor = NWPathMonitor()
-        self.minders = [(ClosureWithAny?,ClosureWithAny?)]()
         self.isInternetAccessible = false
+        self.connectClosure = nil
 
         self.setupCallBack()
     }
     
-    func addMinder( _ connectionMinder: ClosureWithAny?
-                  , _ disconnectionMinder: ClosureWithAny? ) -> Int {
-        
-        self.minders.append( (connectionMinder,disconnectionMinder) )
-        return self.minders.count - 1
-    }
-    
-    func removeMinder( minderID: Int ) {
-        let _ = self.minders.remove(at: minderID)
-    }
-    
-    func removeAllMinders(){
-        self.minders.removeAll()
-    }
-    
-    func connectionTest( connected: ClosureWithAny?, disconnected: ClosureWithAny? ){
-        
-        let tempMinderConnected: ClosureWithAny = { sender in
-            connected?(nil)
-            
-            if let id = self.findMinder(minder: connected) {
-                self.removeMinder(minderID: id)
-            }
-        }
-        
-        let tempMinderDisconnected: ClosureWithAny = { sender in
-            disconnected?(nil)
-            
-            if let id = self.findMinder(minder: disconnected) {
-                self.removeMinder(minderID: id)
-            }
-        }
-        
-        var minder: (ClosureWithAny?,ClosureWithAny?) = (nil,nil)
-        if let connected = connected {
-            if self.isInternetAccessible {
-                connected(nil)
-            } else {
-                minder.0 = tempMinderConnected
-            }
-        } else if let disconnected = disconnected {
-            if self.isInternetAccessible {
-                minder.1 = tempMinderDisconnected
-            } else {
-                disconnected(nil)
-            }
-        }
-        
-        if minder.0 == nil && minder.1 == nil {
-            self.minders.append(minder)
+    func accessible( _ completion: @escaping ClosureWithBool ) {
+        if self.isInternetAccessible {
+            completion(true)
+        } else {
+            self.connectClosure = completion
         }
     }
     
@@ -95,9 +53,20 @@ class NetMinder {
             if path.status == .satisfied {
                 self.isInternetAccessible = true
                 
+                if let connectClosure = self.connectClosure {
+                    connectClosure(true)
+                    self.connectClosure = nil
+                }
                 
             } else {
                 self.isInternetAccessible = false
+                
+                DispatchQueue.main.async {
+                    self.alert = UIAlertController( title:"Network Access Error", message: "Please connect to the internet", preferredStyle: .alert )
+                    self.alert?.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    
+                    self.alert?.show()
+                }
             }
         }
         
@@ -105,16 +74,30 @@ class NetMinder {
         self.netMonitor.start(queue: queue)
     }
     
-    func findMinder( minder: ClosureWithAny? ) -> Int? {
-        
-        for index in 0..<self.minders.count {
-            let minderTruple = self.minders[index]
-            if minderTruple.0 as AnyObject? === minder as AnyObject? ||
-               minderTruple.1 as AnyObject? === minder as AnyObject? {
-                return index
-            }
-        }
-        return nil
+}
+
+extension UIAlertController {
+
+    func show() {
+        present(animated: true, completion: nil)
     }
 
+    func present(animated: Bool, completion: (() -> Void)?) {
+        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+            presentFromController(controller: rootVC, animated: animated, completion: completion)
+        }
+    }
+
+    private func presentFromController(controller: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        if let navVC = controller as? UINavigationController,
+            let visibleVC = navVC.visibleViewController {
+            presentFromController(controller: visibleVC, animated: animated, completion: completion)
+        } else
+            if let tabVC = controller as? UITabBarController,
+                let selectedVC = tabVC.selectedViewController {
+                presentFromController(controller: selectedVC, animated: animated, completion: completion)
+            } else {
+                controller.present(self, animated: animated, completion: completion);
+        }
+    }
 }
