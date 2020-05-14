@@ -30,7 +30,7 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     //
     let quakeDataSource = QuakeDataSource()
     var startTime: String { get { 
-                    let pastDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+                    let pastDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
                     return pastDate.toYYYYMMDD() }
         }
     var endTime: String { get { return Date().toYYYYMMDD() }} // set to todays date
@@ -66,7 +66,7 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
+        return 60.0
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

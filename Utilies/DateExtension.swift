@@ -35,11 +35,11 @@ extension Date {
         var calendar = Calendar.current
 
         calendar.timeZone = TimeZone(identifier: "UTC")!
-        let components = calendar.dateComponents([.hour, .year, .minute], from: self)
+        //let components = calendar.dateComponents([.hour, .year, .minute], from: self)
         let hour = calendar.component(.hour, from: self)
         let minutes = calendar.component(.minute, from: self)
-        let seconds = calendar.component(.second, from: self)
+        //let seconds = calendar.component(.second, from: self)
         
-        return "\(hour):\(minutes):\(seconds)"
+        return "\(hour):\(minutes)"
     }
 }

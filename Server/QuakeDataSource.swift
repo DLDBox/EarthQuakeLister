@@ -89,20 +89,18 @@ extension QuakeDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let quakeCell: QuakeCell = tableView.dequeueReusableCell( withIdentifier: "QuakeCell", for: indexPath ) as! QuakeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuakeCell", for: indexPath)
         let properties = self.featureAt(indexPath)?.properties
         
-        quakeCell.title.text = properties?.place
-        quakeCell.magnitude.text = "\(properties?.mag ?? 0.0)"
-        quakeCell.time.text = properties?.time?.toHHMM()
-        
-        return quakeCell
+        cell.textLabel?.text = properties?.place
+        cell.detailTextLabel?.text = "Time: \(properties?.time?.toHHMM() ?? "") - Magnitude: \(properties?.mag ?? 0.0)"
+
+        return cell
     }
 
     //
     //MARK: - Custom accessor
-    //
-    
+    //    
     func featureAt( _ indexPath: IndexPath ) -> Feature? {
         if let features = self.features?.features, indexPath.row < features.count {
             return features[indexPath.row]
