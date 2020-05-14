@@ -27,7 +27,7 @@ class QuakeDataSource: NSObject, UITableViewDataSource {
     
     override init() {
         
-        self.netMonitor = NWPathMonitor()
+        self.netMonitor = NWPathMonitor() // TODO: create separate class for this object
         self.isInternetAccessible = false
         self.features = nil
     
@@ -94,7 +94,7 @@ extension QuakeDataSource {
         
         quakeCell.title.text = properties?.place
         quakeCell.magnitude.text = "\(properties?.mag ?? 0.0)"
-        quakeCell.time.text = "12:00"//properties?.time //TODO: convert Date to a string
+        quakeCell.time.text = properties?.time?.toHHMM() //TODO: convert Date to a string
         
         return quakeCell
     }

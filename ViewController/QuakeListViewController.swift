@@ -29,8 +29,11 @@ class QuakeListViewController: DevoeViewController, UITableViewDelegate {
     //MARK: - private member section
     //
     let quakeDataSource = QuakeDataSource()
-    var startTime: String { get { return "2020-01-01" }} // calculate the date 30 days from today
-    var endTime: String { get { return "2020-01-02" }} // set to todays date
+    var startTime: String { get { 
+                    let pastDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+                    return pastDate.toYYYYMMDD() }
+        }
+    var endTime: String { get { return Date().toYYYYMMDD() }} // set to todays date
     
     //
     //MARK: View life cycle

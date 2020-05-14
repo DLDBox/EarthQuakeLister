@@ -12,4 +12,5 @@ typealias Closure = () -> Void
 typealias ClosureWithFeatures = ( _ featureCollection: FeatureCollection ) -> Void
 typealias ClosureWithError = ( _ error: QuakeErrors ) -> Void
 typealias ClosureWithBool = ( _ success: Bool ) -> Void
+typealias ClosureWithAny = ( _ sender: Any? ) -> Void
 

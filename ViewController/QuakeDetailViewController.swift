@@ -18,9 +18,9 @@ class QuakeDetailViewController: DevoeViewController {
     @IBOutlet weak var webView: WKWebView!
     
     //
-    //MARK: - Public member section
+    //MARK: - Private member section
     //
-    var detailURL: URL? = nil
+    private var detailURL: URL? = nil // encapsulate the member, OOD
     
     
     //

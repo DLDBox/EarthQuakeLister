@@ -106,6 +106,33 @@ class DevoeQuakeLocatorTests: XCTestCase {
         print( "print = \(url)" )
     }
     
+    func testMinder() {
+        
+    }
+    
+    func testTime() {
+        
+        let dateString = "2020-01-01"
+        
+        if let a = Date().fromYYYYMMDD(string: dateString) {
+            let newDateString = a.toYYYYMMDD()
+        
+            XCTAssertTrue( dateString == newDateString,"should be the same" )
+            
+            let pastDate: Date = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+            let string = pastDate.toYYYYMMDD()
+            
+            print( "Last Month Date:\(string)" )
+
+        } else {
+            XCTFail()
+        }
+    }
+    
+    //
+    //MARK: - Helpers
+    //
+    
     func printFeatures( _ features: FeatureCollection ) {
         print( "Number of Features: \(features.features?.count ?? 0 )" )
         
@@ -126,6 +153,7 @@ class DevoeQuakeLocatorTests: XCTestCase {
             print( "\(properties.alert ?? "" )" )
         }
     }
+    
     
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
