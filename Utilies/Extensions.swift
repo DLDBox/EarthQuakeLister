@@ -58,7 +58,8 @@ extension UIAlertController {
     }
 
     func present(animated: Bool, completion: (() -> Void)?) {
-        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        if let rootVC = window?.rootViewController {
             presentFromController(controller: rootVC, animated: animated, completion: completion)
         }
     }
